@@ -245,7 +245,7 @@ static bool render(GLFWwindow* window) {
     position_layer(sw_stats, params, window_size);
     render_imgui(sw_stats, params, window_size, true);
     overlay_end_frame();
-    glfwSetWindowSize(window, 1280, 800);
+    glfwSetWindowSize(window, 1920, 1080);
     ImGui::EndFrame();
     return last_window_size.x != window_size.x || last_window_size.y != window_size.y;
 }
@@ -292,7 +292,10 @@ int main(int, char**)
     deviceName = (char*)glGetString(GL_RENDERER);
     sw_stats.deviceName = deviceName;
     if (deviceName.find("Radeon") != std::string::npos
-    || deviceName.find("AMD") != std::string::npos){
+    || deviceName.find("AMD") != std::string::npos
+    || deviceName.find("NAVI") != std::string::npos
+    || deviceName.find("REMBRANDT") != std::string::npos
+    || deviceName.find("RENOIR") != std::string::npos){
         vendorID = 0x1002;
     } else if (deviceName.find("Intel") != std::string::npos) {
         vendorID = 0x8086;
