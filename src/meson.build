@@ -214,6 +214,11 @@ if get_option('mangoapp')
   pre_args += '-DMANGOAPP'
   mangoapp = executable(
     'mangoapp',
+    mangohud_version,
+    util_files,
+    vk_enum_to_str,
+    vklayer_files,
+    opengl_files,
     files(
       'app/main.cpp',
     ),
@@ -237,7 +242,6 @@ if get_option('mangoapp')
     ],
     include_directories : [inc_common],
     install_tag : 'mangoapp',
-    link_with: mangohud_static_lib,
     link_args : link_args,
     install : true
   )

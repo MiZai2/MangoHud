@@ -87,7 +87,12 @@ void amdgpu_get_instant_metrics(struct amdgpu_common_metrics *metrics) {
 
 		metrics->average_gfx_power_w = amdgpu_metrics->average_gfx_power / 1000.f;
 		metrics->average_cpu_power_w = amdgpu_metrics->average_cpu_power / 1000.f;
-
+		//SPDLOG_ERROR("amdgpu_metrics->average_cpu_power: '{}'", amdgpu_metrics->average_cpu_power);
+		if(amdgpu_metrics->average_gfx_power == 65535) {
+			uint16_t asp = amdgpu_metrics->average_socket_power;
+			float average_socket_power_w = asp >= 1000 ? asp / 1000.f : asp / 1.f;
+			metrics->average_gfx_power_w = average_socket_power_w - metrics->average_cpu_power_w;
+		}
 		metrics->current_gfxclk_mhz = amdgpu_metrics->current_gfxclk;
 		metrics->current_uclk_mhz = amdgpu_metrics->current_uclk;
 
