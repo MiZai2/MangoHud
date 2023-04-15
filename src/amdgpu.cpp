@@ -85,8 +85,13 @@ void amdgpu_get_instant_metrics(struct amdgpu_common_metrics *metrics) {
 		struct gpu_metrics_v2_3 *amdgpu_metrics = (struct gpu_metrics_v2_3 *) buf;
 
 		metrics->gpu_load_percent = amdgpu_metrics->average_gfx_activity;
-
-		metrics->average_gfx_power_w = amdgpu_metrics->average_gfx_power / 1000.f;
+		if( IS_VALID_METRIC(amdgpu_metrics->average_gfx_power) ){
+            metrics->average_gfx_power_w = amdgpu_metrics->average_gfx_power / 1000.f;
+		} else if( IS_VALID_METRIC(amdgpu_metrics->average_socket_power) && IS_VALID_METRIC(amdgpu_metrics->average_cpu_power) ){
+			metrics->average_gfx_power_w = (amdgpu_metrics->average_socket_power > 1000?
+			amdgpu_metrics->average_socket_power / 1000.f : amdgpu_metrics->average_socket_power)
+            - amdgpu_metrics->average_cpu_power / 1000.f;
+		}
 
         if( IS_VALID_METRIC(amdgpu_metrics->average_cpu_power) ) {
             // prefered method

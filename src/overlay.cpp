@@ -937,7 +937,7 @@ void update_fan(){
       auto dirs = ls(path.c_str(), "hwmon", LS_DIRS);
       for (auto& dir : dirs) {
          string full_path = (path + dir + "/name").c_str();
-         if (read_line(full_path).find("steamdeck_hwmon") != string::npos){
+         if (read_line(full_path).find("oxpec") != string::npos){
             hwmon_path = path + dir + "/fan1_input";
             break;
          }
